@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collaborative Project Management System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<!-- Header -->
+<header>
+    <div>
+        <div class="header-title">🚀 Project Manager</div>
+        <div class="header-subtitle">Collaborative Task Management System</div>
+    </div>
+    <div class="notification-bell" id="notificationBell">
+        🔔
+        <div class="notification-badge" id="notificationBadge" style="display: none;">0</div>
+    </div>
+</header>
+
+<!-- Main Container -->
+<div class="container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-section">
+            <div class="sidebar-title">Views</div>
+            <div class="sidebar-item active" data-filter="all">📊 All Tasks</div>
+            <div class="sidebar-item" data-filter="assigned-to-me">👤 Assigned to Me</div>
+            <div class="sidebar-item" data-filter="in-progress">⏳ In Progress</div>
+            <div class="sidebar-item" data-filter="completed">✅ Completed</div>
+        </div>
+
+        <div class="sidebar-section">
+            <div class="sidebar-title">Priority</div>
+            <div class="sidebar-item" data-filter-priority="high">🔴 High</div>
+            <div class="sidebar-item" data-filter-priority="medium">🟡 Medium</div>
+            <div class="sidebar-item" data-filter-priority="low">🟢 Low</div>
+        </div>
+
+        <div class="sidebar-section">
+            <div class="sidebar-title">Reports</div>
+            <div class="sidebar-item" id="viewReports">📈 View Reports</div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="content-header">
+            <div>
+                <h1 class="page-title">Project Tasks</h1>
+            </div>
+            <div class="action-buttons">
+                <button class="btn btn-primary" id="createTaskBtn">➕ Create Task</button>
+                <button class="btn btn-secondary" id="clearCompleted">🗑️ Clear Completed</button>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filters-section">
+            <div class="filter-group">
+                <label for="statusFilter">Status:</label>
+                <select id="statusFilter">
+                    <option value="">All Statuses</option>
+                    <option value="todo">To Do</option>
+                    <option value="in-progress">In Progress</option>
+                    <option value="completed">Completed</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="priorityFilter">Priority:</label>
+                <select id="priorityFilter">
+                    <option value="">All Priorities</option>
+                    <option value="high">High</option>
+                    <option value="medium">Medium</option>
+                    <option value="low">Low</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="userFilter">Assigned User:</label>
+                <select id="userFilter">
+                    <option value="">All Users</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="searchBox">Search:</label>
+                <input type="text" id="searchBox" placeholder="Search tasks...">
+            </div>
+
+            <div class="filter-group">
+                <label for="sortBy">Sort By:</label>
+                <select id="sortBy">
+                    <option value="due-date">Due Date</option>
+                    <option value="priority">Priority</option>
+                    <option value="created">Created Date</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Task List -->
+        <div id="taskList" class="task-list"></div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="empty-state" style="display: none;">
+            <div class="empty-state-icon">📭</div>
+            <div class="empty-state-text">No tasks found. Create one to get started!</div>
+            <button class="btn btn-primary" onclick="taskManager.openCreateModal()">Create First Task</button>
+        </div>
+
+        <!-- Reports Section -->
+        <div id="reportsSection" style="display: none;">
+            <div class="reports-section">
+                <h2 style="color: var(--primary-color); margin-bottom: 20px;">📊 Task Progress Report</h2>
+                
+                <div class="reports-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalTasks">0</div>
+                        <div class="stat-label">Total Tasks</div>
+                    </div>
+                    <div class="stat-card success">
+                        <div class="stat-value" id="completedTasks">0</div>
+                        <div class="stat-label">Completed</div>
+                    </div>
+                    <div class="stat-card warning">
+                        <div class="stat-value" id="inProgressTasks">0</div>
+                        <div class="stat-label">In Progress</div>
+                    </div>
+                    <div class="stat-card danger">
+                        <div class="stat-value" id="pendingTasks">0</div>
+                        <div class="stat-label">Pending</div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 30px;">
+                    <h3 style="color: var(--primary-color); margin-bottom: 15px;">📋 Task Details</h3>
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="background-color: var(--light-bg);">
+                                <th style="padding: 10px; text-align: left; font-weight: bold;">Task Name</th>
+                                <th style="padding: 10px; text-align: left; font-weight: bold;">Status</th>
+                                <th style="padding: 10px; text-align: left; font-weight: bold;">Priority</th>
+                                <th style="padding: 10px; text-align: left; font-weight: bold;">Assigned To</th>
+                                <th style="padding: 10px; text-align: left; font-weight: bold;">Due Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reportTableBody">
+                            <!-- Populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Task Modal -->
+<div class="modal" id="taskModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <span id="modalTitle">Create New Task</span>
+            <button class="modal-close" onclick="taskManager.closeModal()">&times;</button>
+        </div>
+
+        <form id="taskForm">
+            <div class="form-group">
+                <label for="taskName">Task Name *</label>
+                <input type="text" id="taskName" placeholder="Enter task name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="taskDescription">Description</label>
+                <textarea id="taskDescription" placeholder="Enter task description"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="taskPriority">Priority *</label>
+                <select id="taskPriority" required>
+                    <option value="low">Low</option>
+                    <option value="medium" selected>Medium</option>
+                    <option value="high">High</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="taskAssignee">Assign To *</label>
+                <select id="taskAssignee" required>
+                    <!-- Populated by JavaScript -->
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="taskDueDate">Due Date *</label>
+                <input type="date" id="taskDueDate" required>
+            </div>
+
+            <div class="form-group">
+                <label for="taskStatus">Status</label>
+                <select id="taskStatus">
+                    <option value="todo">To Do</option>
+                    <option value="in-progress">In Progress</option>
+                    <option value="completed">Completed</option>
+                </select>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="taskManager.closeModal()">Cancel</button>
+                <button type="submit" class="btn btn-primary">Save Task</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Notifications Panel -->
+<div class="notifications-panel" id="notificationsPanel">
+    <div class="notifications-header">
+        Notifications
+        <button style="float: right; background: none; border: none; cursor: pointer; font-size: 16px;" onclick="document.getElementById('notificationsPanel').classList.remove('active')">×</button>
+    </div>
+    <div id="notificationsList"></div>
+</div>
+
+
+    <script src="script.js"></script>
+</body>
+</html>
