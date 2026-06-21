@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<!-- Header -->
 <header>
     <div>
         <div class="header-title">🚀 Project Manager</div>
@@ -19,9 +18,8 @@
     </div>
 </header>
 
-<!-- Main Container -->
 <div class="container">
-    <!-- Sidebar -->
+
     <div class="sidebar">
         <div class="sidebar-section">
             <div class="sidebar-title">Views</div>
@@ -44,7 +42,7 @@
         </div>
     </div>
 
-    <!-- Main Content -->
+
     <div class="main-content">
         <div class="content-header">
             <div>
@@ -56,7 +54,6 @@
             </div>
         </div>
 
-        <!-- Filters -->
         <div class="filters-section">
             <div class="filter-group">
                 <label for="statusFilter">Status:</label>
@@ -100,17 +97,16 @@
             </div>
         </div>
 
-        <!-- Task List -->
+
         <div id="taskList" class="task-list"></div>
 
-        <!-- Empty State -->
+
         <div id="emptyState" class="empty-state" style="display: none;">
             <div class="empty-state-icon">📭</div>
             <div class="empty-state-text">No tasks found. Create one to get started!</div>
             <button class="btn btn-primary" onclick="taskManager.openCreateModal()">Create First Task</button>
         </div>
 
-        <!-- Reports Section -->
         <div id="reportsSection" style="display: none;">
             <div class="reports-section">
                 <h2 style="color: var(--primary-color); margin-bottom: 20px;">📊 Task Progress Report</h2>
@@ -147,7 +143,6 @@
                             </tr>
                         </thead>
                         <tbody id="reportTableBody">
-                            <!-- Populated by JavaScript -->
                         </tbody>
                     </table>
                 </div>
@@ -156,7 +151,7 @@
     </div>
 </div>
 
-<!-- Task Modal -->
+
 <div class="modal" id="taskModal">
     <div class="modal-content">
         <div class="modal-header">
@@ -187,7 +182,6 @@
             <div class="form-group">
                 <label for="taskAssignee">Assign To *</label>
                 <select id="taskAssignee" required>
-                    <!-- Populated by JavaScript -->
                 </select>
             </div>
 
@@ -213,7 +207,7 @@
     </div>
 </div>
 
-<!-- Notifications Panel -->
+
 <div class="notifications-panel" id="notificationsPanel">
     <div class="notifications-header">
         Notifications

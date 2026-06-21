@@ -23,7 +23,6 @@ body {
     overflow-x: hidden;
 }
 
-/* Header */
 header {
     background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
     color: white;
@@ -71,13 +70,11 @@ header {
     font-weight: bold;
 }
 
-/* Main Container */
 .container {
     display: flex;
     height: calc(100vh - 80px);
 }
 
-/* Sidebar */
 .sidebar {
     width: 280px;
     background: var(--white);
@@ -120,7 +117,6 @@ header {
     font-weight: 600;
 }
 
-/* Main Content */
 .main-content {
     flex: 1;
     padding: 30px;
@@ -199,7 +195,6 @@ header {
     background-color: #95a5a6;
 }
 
-/* Filters and Search */
 .filters-section {
     background: var(--white);
     padding: 15px 20px;
@@ -239,7 +234,6 @@ header {
     box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
 }
 
-/* Task List */
 .task-list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
@@ -408,7 +402,6 @@ header {
     transition: width 0.3s ease;
 }
 
-/* Empty State */
 .empty-state {
     text-align: center;
     padding: 60px 20px;
@@ -425,7 +418,6 @@ header {
     margin-bottom: 20px;
 }
 
-/* Modal */
 .modal {
     display: none;
     position: fixed;
@@ -533,7 +525,6 @@ header {
     justify-content: flex-end;
 }
 
-/* Notifications Panel */
 .notifications-panel {
     position: fixed;
     right: -350px;
@@ -594,7 +585,6 @@ header {
     color: #856404;
 }
 
-/* Reports Section */
 .reports-section {
     background: var(--white);
     padding: 20px;
@@ -647,7 +637,6 @@ header {
     opacity: 0.9;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
     .container {
         flex-direction: column;
@@ -699,7 +688,6 @@ header {
     }
 }
 
-/* Scrollbar Styling */
 ::-webkit-scrollbar {
     width: 8px;
 }

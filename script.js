@@ -1,8 +1,5 @@
-// ==================== DATA STRUCTURES & CLASSES ====================
 
-/**
- * User class representing a team member
- */
+
 class User {
     constructor(id, name, email, role = 'Team Member') {
         this.id = id;
@@ -13,10 +10,7 @@ class User {
         this.createdAt = new Date();
     }
 
-    /**
-     * Get user's profile information
-     */
-    getProfile() {
+        getProfile() {
         return {
             id: this.id,
             name: this.name,
@@ -26,42 +20,30 @@ class User {
         };
     }
 
-    /**
-     * Add a task to user's assigned tasks
-     */
-    addTask(taskId) {
+        addTask(taskId) {
         if (!this.assignedTasks.includes(taskId)) {
             this.assignedTasks.push(taskId);
         }
     }
 
-    /**
-     * Remove a task from user's assigned tasks
-     */
-    removeTask(taskId) {
+        removeTask(taskId) {
         this.assignedTasks = this.assignedTasks.filter(id => id !== taskId);
     }
 
-    /**
-     * Get all assigned tasks count
-     */
-    getTaskCount() {
+        getTaskCount() {
         return this.assignedTasks.length;
     }
 }
 
-/**
- * Task class representing a project task
- */
 class Task {
     constructor(id, name, description = '', priority = 'medium', assignedUserId = null, dueDate = null, status = 'todo') {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.priority = priority; // 'low', 'medium', 'high'
+        this.priority = priority; 
         this.assignedUserId = assignedUserId;
         this.dueDate = dueDate;
-        this.status = status; // 'todo', 'in-progress', 'completed'
+        this.status = status; 
         this.createdAt = new Date();
         this.updatedAt = new Date();
         this.subtasks = [];
@@ -69,20 +51,14 @@ class Task {
         this.attachments = [];
     }
 
-    /**
-     * Format task description - truncate long descriptions
-     */
-    getFormattedDescription(maxLength = 100) {
+        getFormattedDescription(maxLength = 100) {
         if (this.description.length > maxLength) {
             return this.description.substring(0, maxLength) + '...';
         }
         return this.description;
     }
 
-    /**
-     * Update task details
-     */
-    update(name, description, priority, assignedUserId, dueDate, status) {
+        update(name, description, priority, assignedUserId, dueDate, status) {
         this.name = name;
         this.description = description;
         this.priority = priority;
@@ -92,50 +68,32 @@ class Task {
         this.updatedAt = new Date();
     }
 
-    /**
-     * Mark task as completed
-     */
-    markCompleted() {
+        markCompleted() {
         this.status = 'completed';
         this.updatedAt = new Date();
     }
 
-    /**
-     * Mark task as in progress
-     */
-    markInProgress() {
+        markInProgress() {
         this.status = 'in-progress';
         this.updatedAt = new Date();
     }
 
-    /**
-     * Reset task to to-do
-     */
-    resetToToDo() {
+        resetToToDo() {
         this.status = 'todo';
         this.updatedAt = new Date();
     }
 
-    /**
-     * Check if task is overdue
-     */
-    isOverdue() {
+        isOverdue() {
         if (!this.dueDate || this.status === 'completed') return false;
         return new Date(this.dueDate) < new Date();
     }
 
-    /**
-     * Get priority level as number (for sorting)
-     */
-    getPriorityNumber() {
+        getPriorityNumber() {
         const priorityMap = { 'low': 1, 'medium': 2, 'high': 3 };
         return priorityMap[this.priority] || 2;
     }
 
-    /**
-     * Add a comment to the task
-     */
-    addComment(userId, comment) {
+        addComment(userId, comment) {
         this.comments.push({
             id: Date.now(),
             userId,
@@ -144,10 +102,7 @@ class Task {
         });
     }
 
-    /**
-     * Get task summary
-     */
-    getSummary() {
+        getSummary() {
         return {
             id: this.id,
             name: this.name,
@@ -163,9 +118,6 @@ class Task {
     }
 }
 
-/**
- * Project class representing a collaborative project
- */
 class Project {
     constructor(id, name, description = '', owner = null) {
         this.id = id;
@@ -178,26 +130,17 @@ class Project {
         this.updatedAt = new Date();
     }
 
-    /**
-     * Add a team member to the project
-     */
-    addTeamMember(user) {
+        addTeamMember(user) {
         if (!this.teamMembers.find(m => m.id === user.id)) {
             this.teamMembers.push(user);
         }
     }
 
-    /**
-     * Get all team members
-     */
-    getTeamMembers() {
+        getTeamMembers() {
         return this.teamMembers;
     }
 
-    /**
-     * Get project statistics
-     */
-    getStatistics() {
+        getStatistics() {
         const completedTasks = this.tasks.filter(t => t.status === 'completed').length;
         const inProgressTasks = this.tasks.filter(t => t.status === 'in-progress').length;
         const pendingTasks = this.tasks.filter(t => t.status === 'todo').length;
@@ -211,10 +154,7 @@ class Project {
         };
     }
 
-    /**
-     * Get project summary
-     */
-    getSummary() {
+        getSummary() {
         const stats = this.getStatistics();
         return {
             name: this.name,
@@ -226,9 +166,6 @@ class Project {
     }
 }
 
-/**
- * TaskManager class - Main management class for all project operations
- */
 class TaskManager {
     constructor() {
         this.project = null;
@@ -240,11 +177,8 @@ class TaskManager {
         this.initializeApp();
     }
 
-    /**
-     * Initialize the application with sample data
-     */
-    initializeApp() {
-        // Create users
+        initializeApp() {
+        
         this.users = [
             new User(1, 'Faraz Ahmad', 'faraz@project.com', 'Project Manager'),
             new User(2, 'Nouman Ali', 'nouman@project.com', 'Developer'),
@@ -252,11 +186,11 @@ class TaskManager {
             new User(4, 'Shahwaiz Sheraz', 'shahwaiz@project.com', 'QA Engineer')
         ];
 
-        // Create project
+        
         this.project = new Project(1, 'E-Commerce Platform', 'Building a modern e-commerce solution', this.users[0]);
         this.project.teamMembers = this.users;
 
-        // Create sample tasks
+        
         const now = new Date();
         const taskData = [
             {
@@ -340,24 +274,21 @@ class TaskManager {
         this.updateUserFilter();
     }
 
-    /**
-     * Setup all event listeners
-     */
-    setupEventListeners() {
-        // Create Task Button
+        setupEventListeners() {
+        
         document.getElementById('createTaskBtn').addEventListener('click', () => this.openCreateModal());
 
-        // Task Form Submit
+        
         document.getElementById('taskForm').addEventListener('submit', (e) => this.handleTaskFormSubmit(e));
 
-        // Filter Changes
+        
         document.getElementById('statusFilter').addEventListener('change', () => this.applyFilters());
         document.getElementById('priorityFilter').addEventListener('change', () => this.applyFilters());
         document.getElementById('userFilter').addEventListener('change', () => this.applyFilters());
         document.getElementById('sortBy').addEventListener('change', () => this.renderTaskList());
         document.getElementById('searchBox').addEventListener('input', () => this.applyFilters());
 
-        // Sidebar Filters
+        
         document.querySelectorAll('[data-filter]').forEach(item => {
             item.addEventListener('click', (e) => this.handleSidebarFilter(e));
         });
@@ -366,16 +297,16 @@ class TaskManager {
             item.addEventListener('click', (e) => this.handleSidebarPriorityFilter(e));
         });
 
-        // Clear Completed Button
+        
         document.getElementById('clearCompleted').addEventListener('click', () => this.clearCompletedTasks());
 
-        // Notification Bell
+        
         document.getElementById('notificationBell').addEventListener('click', () => this.toggleNotificationsPanel());
 
-        // View Reports
+        
         document.getElementById('viewReports').addEventListener('click', () => this.showReports());
 
-        // Modal Close on Outside Click
+        
         document.getElementById('taskModal').addEventListener('click', (e) => {
             if (e.target.id === 'taskModal') {
                 this.closeModal();
@@ -383,17 +314,14 @@ class TaskManager {
         });
     }
 
-    /**
-     * Open task creation modal
-     */
-    openCreateModal() {
+        openCreateModal() {
         this.currentEditingTaskId = null;
         document.getElementById('modalTitle').textContent = 'Create New Task';
         document.getElementById('taskForm').reset();
         document.getElementById('taskStatus').value = 'todo';
         document.getElementById('taskPriority').value = 'medium';
         
-        // Set default due date to 7 days from now
+        
         const tomorrow = new Date();
         tomorrow.setDate(tomorrow.getDate() + 7);
         document.getElementById('taskDueDate').valueAsDate = tomorrow;
@@ -401,18 +329,12 @@ class TaskManager {
         document.getElementById('taskModal').classList.add('active');
     }
 
-    /**
-     * Close task modal
-     */
-    closeModal() {
+        closeModal() {
         document.getElementById('taskModal').classList.remove('active');
         this.currentEditingTaskId = null;
     }
 
-    /**
-     * Handle task form submission
-     */
-    handleTaskFormSubmit(e) {
+        handleTaskFormSubmit(e) {
         e.preventDefault();
 
         const taskName = document.getElementById('taskName').value.trim();
@@ -428,10 +350,10 @@ class TaskManager {
         }
 
         if (this.currentEditingTaskId === null) {
-            // Create new task
+            
             this.createTask(taskName, taskDescription, taskPriority, taskAssignee, taskDueDate, taskStatus);
         } else {
-            // Update existing task
+            
             this.updateTask(this.currentEditingTaskId, taskName, taskDescription, taskPriority, taskAssignee, taskDueDate, taskStatus);
         }
 
@@ -440,10 +362,7 @@ class TaskManager {
         this.saveToLocalStorage();
     }
 
-    /**
-     * Create a new task
-     */
-    createTask(name, description, priority, assignedUserId, dueDate, status = 'todo') {
+        createTask(name, description, priority, assignedUserId, dueDate, status = 'todo') {
         const task = new Task(
             Date.now(),
             name,
@@ -465,10 +384,7 @@ class TaskManager {
         return task;
     }
 
-    /**
-     * Update an existing task
-     */
-    updateTask(taskId, name, description, priority, assignedUserId, dueDate, status) {
+        updateTask(taskId, name, description, priority, assignedUserId, dueDate, status) {
         const task = this.project.tasks.find(t => t.id === taskId);
         if (!task) return;
 
@@ -476,7 +392,7 @@ class TaskManager {
 
         task.update(name, description, priority, assignedUserId, dueDate, status);
 
-        // Update user assignments
+        
         if (oldAssignedUserId !== assignedUserId) {
             if (oldAssignedUserId) {
                 const oldUser = this.users.find(u => u.id === oldAssignedUserId);
@@ -494,10 +410,7 @@ class TaskManager {
         this.addNotification(`Task "${name}" updated successfully`, 'update');
     }
 
-    /**
-     * Delete a task
-     */
-    deleteTask(taskId) {
+        deleteTask(taskId) {
         const task = this.project.tasks.find(t => t.id === taskId);
         if (!task) return;
 
@@ -513,10 +426,7 @@ class TaskManager {
         this.saveToLocalStorage();
     }
 
-    /**
-     * Mark task as completed
-     */
-    markTaskCompleted(taskId) {
+        markTaskCompleted(taskId) {
         const task = this.project.tasks.find(t => t.id === taskId);
         if (!task) return;
 
@@ -526,10 +436,7 @@ class TaskManager {
         this.saveToLocalStorage();
     }
 
-    /**
-     * Edit a task
-     */
-    editTask(taskId) {
+        editTask(taskId) {
         const task = this.project.tasks.find(t => t.id === taskId);
         if (!task) return;
 
@@ -545,10 +452,7 @@ class TaskManager {
         document.getElementById('taskModal').classList.add('active');
     }
 
-    /**
-     * Clear all completed tasks
-     */
-    clearCompletedTasks() {
+        clearCompletedTasks() {
         if (!confirm('Are you sure you want to delete all completed tasks?')) return;
 
         const completedTasks = this.project.tasks.filter(t => t.status === 'completed');
@@ -565,18 +469,12 @@ class TaskManager {
         this.saveToLocalStorage();
     }
 
-    /**
-     * Apply filters to task list
-     */
-    applyFilters() {
+        applyFilters() {
         this.renderTaskList();
     }
 
-    /**
-     * Handle sidebar filter clicks
-     */
-    handleSidebarFilter(e) {
-        // Remove active class from all sidebar items
+        handleSidebarFilter(e) {
+        
         document.querySelectorAll('[data-filter]').forEach(item => {
             item.classList.remove('active');
         });
@@ -588,7 +486,7 @@ class TaskManager {
         this.currentFilter = e.target.dataset.filter;
         this.currentPriorityFilter = '';
 
-        // Reset filter dropdowns
+        
         document.getElementById('statusFilter').value = '';
         document.getElementById('priorityFilter').value = '';
         document.getElementById('userFilter').value = '';
@@ -596,10 +494,7 @@ class TaskManager {
         this.renderTaskList();
     }
 
-    /**
-     * Handle sidebar priority filter clicks
-     */
-    handleSidebarPriorityFilter(e) {
+        handleSidebarPriorityFilter(e) {
         document.querySelectorAll('[data-filter-priority]').forEach(item => {
             item.classList.remove('active');
         });
@@ -618,15 +513,12 @@ class TaskManager {
         this.renderTaskList();
     }
 
-    /**
-     * Filter tasks based on current filters
-     */
-    getFilteredTasks() {
+        getFilteredTasks() {
         let filtered = this.project.tasks;
 
-        // Apply sidebar filter
+        
         if (this.currentFilter === 'assigned-to-me') {
-            // For demo, assume current user is the first user
+            
             filtered = filtered.filter(t => t.assignedUserId === 2);
         } else if (this.currentFilter === 'in-progress') {
             filtered = filtered.filter(t => t.status === 'in-progress');
@@ -634,30 +526,30 @@ class TaskManager {
             filtered = filtered.filter(t => t.status === 'completed');
         }
 
-        // Apply priority filter
+        
         if (this.currentPriorityFilter) {
             filtered = filtered.filter(t => t.priority === this.currentPriorityFilter);
         }
 
-        // Apply status filter
+        
         const statusFilter = document.getElementById('statusFilter').value;
         if (statusFilter) {
             filtered = filtered.filter(t => t.status === statusFilter);
         }
 
-        // Apply priority dropdown filter
+        
         const priorityFilter = document.getElementById('priorityFilter').value;
         if (priorityFilter) {
             filtered = filtered.filter(t => t.priority === priorityFilter);
         }
 
-        // Apply user filter
+        
         const userFilter = document.getElementById('userFilter').value;
         if (userFilter) {
             filtered = filtered.filter(t => t.assignedUserId === parseInt(userFilter));
         }
 
-        // Apply search
+        
         const searchTerm = document.getElementById('searchBox').value.toLowerCase();
         if (searchTerm) {
             filtered = filtered.filter(t => 
@@ -669,10 +561,7 @@ class TaskManager {
         return filtered;
     }
 
-    /**
-     * Sort tasks based on selected criteria
-     */
-    sortTasks(tasks) {
+        sortTasks(tasks) {
         const sortBy = document.getElementById('sortBy').value;
         const sorted = [...tasks];
 
@@ -692,10 +581,7 @@ class TaskManager {
         return sorted;
     }
 
-    /**
-     * Render the task list
-     */
-    renderTaskList() {
+        renderTaskList() {
         const taskList = document.getElementById('taskList');
         const emptyState = document.getElementById('emptyState');
 
@@ -711,35 +597,32 @@ class TaskManager {
         emptyState.style.display = 'none';
         taskList.innerHTML = sortedTasks.map(task => this.createTaskCardHTML(task)).join('');
 
-        // Add event listeners to task cards
+        
         document.querySelectorAll('.task-card').forEach(card => {
             const taskId = parseInt(card.dataset.taskId);
             
-            // Edit on card click
+            
             card.addEventListener('click', (e) => {
                 if (!e.target.closest('.task-action-btn')) {
                     this.editTask(taskId);
                 }
             });
 
-            // Delete button
+            
             card.querySelector('.delete-btn').addEventListener('click', () => {
                 if (confirm('Delete this task?')) {
                     this.deleteTask(taskId);
                 }
             });
 
-            // Complete button
+            
             card.querySelector('.complete-btn').addEventListener('click', () => {
                 this.markTaskCompleted(taskId);
             });
         });
     }
 
-    /**
-     * Create task card HTML
-     */
-    createTaskCardHTML(task) {
+        createTaskCardHTML(task) {
         const assignedUser = this.users.find(u => u.id === task.assignedUserId);
         const dueDate = new Date(task.dueDate);
         const isOverdue = task.isOverdue();
@@ -780,19 +663,13 @@ class TaskManager {
         `;
     }
 
-    /**
-     * Escape HTML special characters
-     */
-    escapeHtml(text) {
+        escapeHtml(text) {
         const div = document.createElement('div');
         div.textContent = text;
         return div.innerHTML;
     }
 
-    /**
-     * Update user filter dropdown
-     */
-    updateUserFilter() {
+        updateUserFilter() {
         const userFilter = document.getElementById('userFilter');
         const taskAssignee = document.getElementById('taskAssignee');
 
@@ -804,10 +681,7 @@ class TaskManager {
         taskAssignee.innerHTML = userOptions;
     }
 
-    /**
-     * Add notification
-     */
-    addNotification(message, type = 'update') {
+        addNotification(message, type = 'update') {
         const notification = {
             id: Date.now(),
             message,
@@ -818,7 +692,7 @@ class TaskManager {
 
         this.notifications.unshift(notification);
 
-        // Keep only last 50 notifications
+        
         if (this.notifications.length > 50) {
             this.notifications = this.notifications.slice(0, 50);
         }
@@ -828,10 +702,7 @@ class TaskManager {
         this.saveToLocalStorage();
     }
 
-    /**
-     * Update notifications badge
-     */
-    updateNotificationsBadge() {
+        updateNotificationsBadge() {
         const unreadCount = this.notifications.filter(n => n.unread).length;
         const badge = document.getElementById('notificationBadge');
 
@@ -843,10 +714,7 @@ class TaskManager {
         }
     }
 
-    /**
-     * Render notifications in the panel
-     */
-    renderNotifications() {
+        renderNotifications() {
         const notificationsList = document.getElementById('notificationsList');
         
         if (this.notifications.length === 0) {
@@ -863,10 +731,7 @@ class TaskManager {
         `).join('');
     }
 
-    /**
-     * Get time ago string
-     */
-    getTimeAgo(date) {
+        getTimeAgo(date) {
         const seconds = Math.floor((new Date() - date) / 1000);
         
         if (seconds < 60) return 'just now';
@@ -875,23 +740,17 @@ class TaskManager {
         return Math.floor(seconds / 86400) + 'd ago';
     }
 
-    /**
-     * Toggle notifications panel
-     */
-    toggleNotificationsPanel() {
+        toggleNotificationsPanel() {
         const panel = document.getElementById('notificationsPanel');
         panel.classList.toggle('active');
 
-        // Mark notifications as read
+        
         this.notifications.forEach(notif => notif.unread = false);
         this.updateNotificationsBadge();
         this.renderNotifications();
     }
 
-    /**
-     * Show reports
-     */
-    showReports() {
+        showReports() {
         document.getElementById('reportsSection').style.display = 'block';
         document.getElementById('taskList').style.display = 'none';
 
@@ -901,7 +760,7 @@ class TaskManager {
         document.getElementById('inProgressTasks').textContent = stats.inProgressTasks;
         document.getElementById('pendingTasks').textContent = stats.pendingTasks;
 
-        // Generate detailed report table
+        
         const reportBody = document.getElementById('reportTableBody');
         const tasksForReport = [...this.project.tasks].sort((a, b) => 
             new Date(b.createdAt) - new Date(a.createdAt)
@@ -920,22 +779,16 @@ class TaskManager {
             `;
         }).join('');
 
-        // Scroll to reports
+        
         document.getElementById('reportsSection').scrollIntoView({ behavior: 'smooth' });
     }
 
-    /**
-     * Hide reports and show task list
-     */
-    hideReports() {
+        hideReports() {
         document.getElementById('reportsSection').style.display = 'none';
         document.getElementById('taskList').style.display = 'grid';
     }
 
-    /**
-     * Save data to local storage
-     */
-    saveToLocalStorage() {
+        saveToLocalStorage() {
         const data = {
             tasks: this.project.tasks,
             users: this.users,
@@ -944,10 +797,7 @@ class TaskManager {
         localStorage.setItem('projectManagerData', JSON.stringify(data));
     }
 
-    /**
-     * Load data from local storage
-     */
-    loadFromLocalStorage() {
+        loadFromLocalStorage() {
         const saved = localStorage.getItem('projectManagerData');
         if (saved) {
             try {
@@ -966,16 +816,16 @@ class TaskManager {
     }
 }
 
-// Initialize the Task Manager
+
 const taskManager = new TaskManager();
 
-// Update notifications and reports view when sidebar is clicked
+
 const originalViewReports = taskManager.showReports.bind(taskManager);
 document.getElementById('viewReports').addEventListener('click', () => {
     originalViewReports();
 });
 
-// Add event to return from reports
+
 document.addEventListener('click', (e) => {
     if (e.target.closest('[data-filter], [data-filter-priority]')) {
         document.getElementById('reportsSection').style.display = 'none';
