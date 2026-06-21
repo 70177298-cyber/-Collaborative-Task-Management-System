@@ -673,6 +673,13 @@ class TaskManager {
         const userFilter = document.getElementById('userFilter');
         const taskAssignee = document.getElementById('taskAssignee');
 
+        if (!this.users || this.users.length === 0) {
+            console.error('No users available to populate assignee dropdown.');
+            userFilter.innerHTML = '<option value="">All Users</option>';
+            taskAssignee.innerHTML = '<option value="">No users available</option>';
+            return;
+        }
+
         const userOptions = this.users.map(user => 
             `<option value="${user.id}">${user.name}</option>`
         ).join('');
@@ -804,7 +811,15 @@ class TaskManager {
                 const data = JSON.parse(saved);
                 if (data.tasks && data.tasks.length > 0) {
                     this.project.tasks = data.tasks;
-                    this.users = data.users;
+
+                    // Only overwrite users if saved data actually has valid users.
+                    // Otherwise keep the defaults created in initializeApp().
+                    if (Array.isArray(data.users) && data.users.length > 0) {
+                        this.users = data.users;
+                    } else {
+                        console.warn('Saved users data was empty/invalid — keeping default users.');
+                    }
+
                     if (data.notifications) {
                         this.notifications = data.notifications;
                     }
