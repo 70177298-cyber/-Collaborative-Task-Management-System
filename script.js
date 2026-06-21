@@ -246,10 +246,10 @@ class TaskManager {
     initializeApp() {
         // Create users
         this.users = [
-            new User(1, 'Sarah Johnson', 'sarah@project.com', 'Project Manager'),
-            new User(2, 'Mike Chen', 'mike@project.com', 'Developer'),
-            new User(3, 'Emma Davis', 'emma@project.com', 'Designer'),
-            new User(4, 'Alex Rodriguez', 'alex@project.com', 'QA Engineer')
+            new User(1, 'Faraz Ahmad', 'faraz@project.com', 'Project Manager'),
+            new User(2, 'Nouman Ali', 'nouman@project.com', 'Developer'),
+            new User(3, 'Mubashir Mehboob', 'mubashir@project.com', 'Designer'),
+            new User(4, 'Shahwaiz Sheraz', 'shahwaiz@project.com', 'QA Engineer')
         ];
 
         // Create project
